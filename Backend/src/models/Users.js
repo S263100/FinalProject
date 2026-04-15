@@ -18,7 +18,9 @@ const userSchema = new mongoose.Schema({
         required: true,
         minlength: 6
     }
-});
+}, 
+{ timestamps: true }
+);
 
 // Hash the password before saving the user to database
 userSchema.pre("save", async function (next) {
@@ -26,7 +28,13 @@ userSchema.pre("save", async function (next) {
 
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
-})
+});
+
+//Compare password function
+userSchema.methods.comparePassword = async function (userPassword) {
+    return await bcrypt.compare(userPassword, this.password);
+};
+
 
 const User = mongoose.model("User", userSchema);
 
