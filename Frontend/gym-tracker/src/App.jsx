@@ -1,11 +1,21 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { Routes, Route } from 'react-router-dom'
+import Navbar from './components/Navbar'
+import HomePage from './pages/HomePage'
+import RegisterPage from './pages/RegisterPage'
+import LoginPage from './pages/LoginPage'
 
-function App() {
-  return <h1>Fitness App</h1>
-}
+const App = () => {
+  return ( 
+  <div>
 
-export default App
+    <Navbar />
+    <Routes>
+      <Route path='/' element={<HomePage />} />
+      <Route path='/register' element={<RegisterPage />} />
+      <Route path='/login' element={<LoginPage />} />
+    </Routes>
+  </div>
+  )
+};
+
+export default App;
