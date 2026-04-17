@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from "sonner";
 
 const RegisterPage = () => {
   const [username, setUsername] = useState("");
@@ -11,7 +12,7 @@ const RegisterPage = () => {
     e.preventDefault();
 
     if (!username || !email || !password) {
-      console.log("Please fill all fields");
+      toast.error("Please fill all fields");
       return;
     }
 
@@ -27,11 +28,11 @@ const RegisterPage = () => {
       const data = await res.json();
 
       if (!res.ok) {
-        console.log("Registration failed:", data.message);
+        toast.error("Registration failed", data.message);
         return;
       }
 
-      console.log("Registration Success:", data);
+      toast.success("Registration Success", data);
 
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
@@ -39,7 +40,7 @@ const RegisterPage = () => {
       navigate("/");
 
     } catch (error) {
-      console.log("Error during registration:", error);
+      toast.error("Error during registration", error);
     }
   };
 

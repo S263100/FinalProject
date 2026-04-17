@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -10,7 +11,7 @@ const LoginPage = () => {
     e.preventDefault();
 
     if (!email || !password) {
-        console.log("Please fill all fields");
+        toast.error("Please fill in all fields");
         return;
     }
 
@@ -26,11 +27,11 @@ const LoginPage = () => {
         const data = await res.json();
 
         if (!res.ok) {
-            console.log("Login failed:", data.message);
+            toast.error("Login failed", data.message);
             return;
         }
 
-        console.log("Login Success:", data);
+        toast.success("Login Success", data);
 
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.user));
@@ -38,7 +39,7 @@ const LoginPage = () => {
         navigate("/");
 
     } catch (error) {
-        console.log("Error during login:", error);
+        toast.error("Error during login", error);
     }
     };
 
