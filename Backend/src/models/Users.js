@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 
-// User schema defined
+//User schema defined
 const userSchema = new mongoose.Schema({
     username:{
         type: String,
@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema({
 { timestamps: true }
 );
 
-// Hash the password before saving the user to database
+//Hash the password before saving the user to database
 userSchema.pre("save", async function (next) {
     if(!this.isModified("password")) return next();
 
