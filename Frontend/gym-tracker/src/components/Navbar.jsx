@@ -10,6 +10,7 @@ const Navbar = () => {
                 <Link to="/" className="text-lg font-medium text-gray-300 hover:text-white transition-colors duration-200">Home</Link>
                 <Link to="/login" className="ml-6 text-lg font-medium text-gray-300 hover:text-white transition-colors duration-200">Login</Link>
                 <Link to="/register" className="ml-6 text-lg font-medium text-gray-300 hover:text-white transition-colors duration-200">Register</Link>
+                <Link to="/playlists" className="ml-6 text-lg font-medium text-gray-300 hover:text-white transition-colors duration-200">Playlists</Link>
             </div>
         </div>
       </div>
