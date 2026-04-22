@@ -1,20 +1,21 @@
-import mongoose, { set } from "mongoose";
+import mongoose, { mongo, set } from "mongoose";
 
 const PlaylistSchema = new mongoose.Schema(
     {
         userId: {
-            type: String,
-            required: true,
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            required: true
         },
         name: {
             type: String,
             required: true,
         },
-        excercises: [
+        exercises: [
             {
-                excerciseId: {
+                exerciseId: {
                     type: mongoose.Schema.Types.ObjectId,
-                    ref: "Excercise"
+                    ref: "Exercise"
                 },
                 order: Number,
                 sets: {

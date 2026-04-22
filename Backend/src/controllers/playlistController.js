@@ -4,9 +4,9 @@ import Playlist from "../models/Playlist.js";
 export const createPlaylist = async (req, res) => {
     try {
         const playlist = await Playlist.create({
-            userId: req.user.id,
+            userId: req.user.id.toString(),
             name: req.body.name,
-            excercises: req.body.exercises
+            exercises: req.body.exercises
         });
         res.status(201).json(playlist);
     } catch (error) {
@@ -17,7 +17,7 @@ export const createPlaylist = async (req, res) => {
 //Display all Playlist on the Main Playlist Screen
 export const getPlaylists = async (req, res) => {
     try {
-        const playlists = await Playlist.find({ userId: req.user.id });
+        const playlists = await Playlist.find({ userId: req.user.id.toString() });
         res.json(playlists);
     } catch (error) {
         res.status(500).json({ message: "Error getting playlists"});
@@ -29,8 +29,8 @@ export const getPlaylistById = async (req, res) => {
     try {
         const playlist = await Playlist.findOne({ 
             _id: req.params.id,
-            userId: req.user.id 
-        }).populate("exercises.exerciseId");
+            userId: req.user.id.toString() 
+        });
 
         if (!playlist) {
             return res.status(404).json({ message: "Playlist not found" });
@@ -50,7 +50,7 @@ export const updatePlaylist = async (req, res) => {
         },
         {
             name: req.body.name,
-            excercises: req.body.excercises
+            exercises: req.body.exercises
         },
         { returnDocument: "after" }
         );

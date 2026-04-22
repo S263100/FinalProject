@@ -2,9 +2,11 @@ import { use } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const playlistDashboardPage = () => {
     const [playlists, setPlaylists] = useState([]);
+    const [newPlaylistName, setNewPlaylistName] = useState("");
     const navigate = useNavigate();
 
     //Gather all playlists for user
@@ -21,6 +23,27 @@ const playlistDashboardPage = () => {
         setPlaylists(data);
     };
 
+    //Create new playlist
+    const CreatePlaylist = async () => {
+        if (!newPlaylistName) return;
+
+        const token = localStorage.getItem("token");
+
+        const res = await fetch("http://localhost:5001/api/playlists", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ name: newPlaylistName }),
+        });
+
+        const data = await res.json(); 
+
+        setPlaylists((prev) => [...prev, data]);
+        setNewPlaylistName("");
+        toast.success("Playlist created successfully!");
+    };
 
     //Load Data on page load
     useEffect(() => {
@@ -30,6 +53,17 @@ const playlistDashboardPage = () => {
     return (
         <div style={{ padding: "20px" }}>
             <h1>Playlist Dashboard</h1>
+
+            <div style={{ margin: "20px 0" }}>
+                <input 
+                    type="text" 
+                    placeholder="New Playlist Name" 
+                    value={newPlaylistName} 
+                    onChange={(e) => setNewPlaylistName(e.target.value)} 
+                    style={{ padding: "10px", width: "300px", marginRight: "10px" }}
+                />
+                <button onClick={CreatePlaylist} style={{ padding: "10px 20px" }}>Create Playlist</button>
+            </div>
 
             {playlists.length === 0 ? (
                 <p className="text-gray-600 mt-4">No playlists found. Create one to get started!</p>
