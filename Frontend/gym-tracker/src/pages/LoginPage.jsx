@@ -5,6 +5,7 @@ import { toast } from "sonner";
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -51,7 +52,7 @@ const LoginPage = () => {
 
       <input type="text" placeholder="Email" className="w-full p-2 mb-4 border border-gray-300 rounded" value={email} onChange={(e) => setEmail(e.target.value)} />
 
-      <input type="password" placeholder="Password" className="w-full p-2 mb-4 border border-gray-300 rounded" value={password} onChange={(e) => setPassword(e.target.value)} />
+      <input type={showPassword ? "text" : "password"} placeholder="Password" className="w-full p-2 mb-4 border border-gray-300 rounded" value={password} onChange={(e) => setPassword(e.target.value)}  />
 
       <button type="submit" className="w-full bg-primary text-gray-800 p-2 rounded hover:bg-primary-dark transition-colors duration-200">Login</button>
       </form>

@@ -7,6 +7,7 @@ import { toast } from "sonner";
 const playlistDashboardPage = () => {
     const [playlists, setPlaylists] = useState([]);
     const [newPlaylistName, setNewPlaylistName] = useState("");
+    const [searchPlaylist, setSearchPlaylist] = useState("");
     const navigate = useNavigate();
 
     //Gather all playlists for user
@@ -23,61 +24,40 @@ const playlistDashboardPage = () => {
         setPlaylists(data);
     };
 
-    //Create new playlist
-    const CreatePlaylist = async () => {
-        if (!newPlaylistName) return;
-
-        const token = localStorage.getItem("token");
-
-        const res = await fetch("http://localhost:5001/api/playlists", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({ name: newPlaylistName }),
-        });
-
-        const data = await res.json(); 
-
-        setPlaylists((prev) => [...prev, data]);
-        setNewPlaylistName("");
-        toast.success("Playlist created successfully!");
-    };
-
     //Load Data on page load
     useEffect(() => {
         fetchPlaylists();
     }, []);
 
+    const filteredPlaylists = playlists.filter((playlist) =>
+        playlist.name.toLowerCase().includes(searchPlaylist.toLowerCase())
+    );
+    
     return (
-        <div style={{ padding: "20px" }}>
-            <h1>Playlist Dashboard</h1>
+        <div className="p-5">
+            <h1 className="font-bold text-4xl">Playlist Dashboard</h1>
 
-            <div style={{ margin: "20px 0" }}>
+            <div className="my-5">
                 <input 
                     type="text" 
-                    placeholder="New Playlist Name" 
-                    value={newPlaylistName} 
-                    onChange={(e) => setNewPlaylistName(e.target.value)} 
-                    style={{ padding: "10px", width: "300px", marginRight: "10px" }}
-                />
-                <button onClick={CreatePlaylist} style={{ padding: "10px 20px" }}>Create Playlist</button>
+                    placeholder="Search Playlists..." 
+                    value={searchPlaylist} 
+                    onChange={(e) => setSearchPlaylist(e.target.value)} 
+                    className="p-2 w-[300px] mr-2"
+                /> 
+                <button onClick={() => navigate("/playlists/create")} className="bg-green-500 text-white p-2 rounded hover:bg-green-600 transition-colors duration-200">
+                    Create Playlist
+                </button>
             </div>
 
-            {playlists.length === 0 ? (
+            {filteredPlaylists.length === 0 ? (
                 <p className="text-gray-600 mt-4">No playlists found. Create one to get started!</p>
             ) : (
-                playlists.map((playlist) => (
+                filteredPlaylists.map((playlist) => (
                     <div 
                         key={playlist._id}
                         onClick={() => navigate(`/playlists/${playlist._id}`)}
-                        style={{
-                            padding: "10px",
-                            margin: "10px 0",
-                            border: "1px solid #ccc",
-                            cursor: "pointer",
-                        }}
+                        className="p-2.5 my-2.5 border border-grey-300 cursor-pointer"
                     >
                         <h3>{playlist.name}</h3>
                     </div>

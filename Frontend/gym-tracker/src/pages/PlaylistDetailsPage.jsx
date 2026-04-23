@@ -8,7 +8,8 @@ const PlaylistDetailsPage = () => {
     const { id } = useParams();
     const [playlist, setPlaylist] = useState(null);
     const [editMode, setEditMode] = useState(false);
-    const [editName, setEditName] = useState("");
+    const [playlistName, setPlaylistName] = useState("");
+    const [editExercises, setEditExercises] = useState([]);
     const navigate = useNavigate();
 
     //Fetch playlist details
@@ -28,6 +29,8 @@ const PlaylistDetailsPage = () => {
 
         const data = await res.json();
         setPlaylist(data);
+        setPlaylistName(data.name);
+        setEditExercises(data.exercises);
     };
 
     useEffect(() => {
@@ -35,6 +38,24 @@ const PlaylistDetailsPage = () => {
     }, [id]);
 
     if (!playlist) return <div>Loading...</div>;
+
+    //Add new exercise to playlist
+    const addExercise = () => {
+        setEditExercises([...editExercises, { name: "", sets: 3, reps: 10, rest: 60 }]);
+    };
+
+    //Update exercise details
+    const updateExercise = (index, field, value) => {
+        const updatedExercises = [...editExercises];
+        updatedExercises[index][field] = value;
+        setEditExercises(updatedExercises);
+    };
+
+    //Remove exercise from playlist
+    const removeExercise = (index) => {
+        const updatedExercises = editExercises.filter((_, i) => i !== index);
+        setEditExercises(updatedExercises);
+    };
 
     //Update playlist
     const updatePlaylist = async () => {
@@ -47,8 +68,8 @@ const PlaylistDetailsPage = () => {
                 Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify({ 
-                name: editName,
-                exercises: playlist.exercises, 
+                name: playlistName,
+                exercises: editExercises, 
             }),
         });
 
@@ -77,17 +98,43 @@ const PlaylistDetailsPage = () => {
         }
     };
 
+    const savePlaylist = async () => {
+        const token = localStorage.getItem("token");
+
+        const res = await fetch(`http://localhost:5001/api/playlists/${id}`, 
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({ 
+                    name: playlistName,
+                    exercises: editExercises, 
+                }),
+            }
+        );
+
+        if (res.ok) {
+            toast.success("Playlist updated successfully!");
+            setEditMode(false);
+            navigate("/playlists");
+        }
+    };
+
     return (
-        <div style={{ padding: "20px" }}>
+        <div className="min-h-screen flex justify-center items-start bg-gray-100">
+            <div className="w-full max-w-2xl bg-white p-6 mt-10 rounded-xl shadow">
             {editMode ? (
                 <div>
                     <input 
-                        value={editName}
-                        onChange={(e) => setEditName(e.target.value)}
+                        value={playlistName}
+                        onChange={(e) => setPlaylistName(e.target.value)}
                         />
-
-                    <button onClick={updatePlaylist} style={{ backgroundColor: "Green", color: "white", border: "none", padding: "10px 20px", cursor: "pointer", borderRadius: "5px" }}>Save</button>
-                    <button onClick={() => setEditMode(false)} style={{ backgroundColor: "gray", color: "white", border: "none", padding: "10px 20px", cursor: "pointer", borderRadius: "5px", marginLeft: "10px" }}>Cancel</button>
+                    <div className="flex gap-4 mt-4">
+                    <button onClick={updatePlaylist} className="bg-green-500 text-white p-2 rounded hover:bg-green-600 transition-colors duration-200">Save</button>
+                    <button onClick={() => setEditMode(false)} className="bg-gray-500 text-white p-2 rounded hover:bg-gray-600 transition-colors duration-200 ml-2">Cancel</button>
+                    </div>
                 </div>
             ) : (
                 <h1>{playlist.name}</h1>
@@ -95,23 +142,56 @@ const PlaylistDetailsPage = () => {
 
             <h2>Exercises:</h2>
 
-            {playlist.exercises?.length === 0 ? (
-                <p>No exercises in this playlist yet.</p>
-            ) : (
-                playlist.exercises?.map((ex, index) => (
-                    <div key={index} style={{ border: "1px solid #ccc", padding: "10px", marginBottom: "10px" }}>
-                        <p>Exercise ID: {ex.exerciseId}</p>
-                        <p>Sets: {ex.sets}</p>
-                        <p>Reps: {ex.reps}</p>  
-                        <p>Rest Time: {ex.restTime} seconds</p>
-                    </div>
+                {editExercises.length === 0 ? (
+                    <p className="text-gray-600 mt-4">No exercises in this playlist. Edit to add some!</p>
+                ) : (
+                 editExercises.map((exercise, index) => (
+                <div key={index} className="border border-gray-300 p-4 mb-3 rounded-lg">
+                    
+                    <p className="font-semibold mb-2">Exercise {index + 1}</p>
+                    
+                    <input
+                        type="number"
+                        placeholder="Sets"
+                        disabled={!editMode}
+                        value={exercise.sets}
+                        onChange={(e) => updateExercise(index, "sets", parseInt(e.target.value))}
+                        className="border p-2 mr-2 rounded w-20"
+                        placeholder="Sets"
+                    />
+                    <input
+                        type="number"
+                        placeholder="Reps"
+                        disabled={!editMode}
+                        value={exercise.reps}
+                        onChange={(e) => updateExercise(index, "reps", parseInt(e.target.value))}
+                        className="border p-2 mr-2 rounded w-20"
+                        placeholder="Reps"
+                    />
+                    <input
+                        type="number"
+                        placeholder="Rest (seconds)"
+                        disabled={!editMode}
+                        value={exercise.rest}
+                        onChange={(e) => updateExercise(index, "rest", parseInt(e.target.value))}
+                        className="border p-2 mr-2 rounded w-20"
+                        placeholder="Rest (sec)"
+                    />
+
+                   {editMode && (
+                    <button onClick={() => removeExercise(index)} className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition-colors duration-200">Remove</button>
+                   )}
+                </div>
                 ))
             )}
-            <button onClick={() => {
-                setEditName(playlist.name);
-                setEditMode(true);
-            }} style={{ backgroundColor: "Green", color: "white", border: "none", padding: "10px 20px", cursor: "pointer", borderRadius: "5px" }}>Edit Playlist</button>
-            <button onClick={deletePlaylist} style={{ backgroundColor: "red", color: "white", border: "none", padding: "10px 20px", cursor: "pointer", borderRadius: "5px" }}>Delete Playlist</button>
+            {editMode && (<button onClick={addExercise} className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition-colors duration-200 mt-4">+ Add Exercise</button>)}
+            <br /><br />
+            <div className="flex gap-4">
+            <button onClick={() => {setPlaylistName(playlist.name); setEditMode(true);}} className="bg-green-500 text-white p-2 rounded hover:bg-green-600 transition-colors duration-200">Edit Playlist</button>
+            <button onClick={deletePlaylist} className="bg-red-500 text-white p-2 rounded hover:bg-red-600 transition-colors duration-200">Delete Playlist</button>
+            </div>
+            {editMode && (<button onClick={savePlaylist} className="bg-green-500 text-white p-2 rounded hover:bg-green-600 transition-colors duration-200 mt-4">Save Changes</button>)}
+            </div>
             </div>
     );
 }
