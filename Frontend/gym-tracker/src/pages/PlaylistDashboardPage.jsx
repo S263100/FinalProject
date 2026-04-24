@@ -43,9 +43,9 @@ const playlistDashboardPage = () => {
                     placeholder="Search Playlists..." 
                     value={searchPlaylist} 
                     onChange={(e) => setSearchPlaylist(e.target.value)} 
-                    className="p-2 w-[300px] mr-2"
+                    className="p-2 w-[300px] mr-2 border border-grey-300 rounded"
                 /> 
-                <button onClick={() => navigate("/playlists/create")} className="bg-green-500 text-white p-2 rounded hover:bg-green-600 transition-colors duration-200">
+                <button onClick={() => navigate("/playlists/create")} className="bg-green-500 text-white p-2 rounded-xl text-lg absolute right-4 hover:bg-green-600 transition-colors duration-200">
                     Create Playlist
                 </button>
             </div>
@@ -53,18 +53,20 @@ const playlistDashboardPage = () => {
             {filteredPlaylists.length === 0 ? (
                 <p className="text-gray-600 mt-4">No playlists found. Create one to get started!</p>
             ) : (
-                filteredPlaylists.map((playlist) => (
+                <div className="grid grid-cols-3 gap-8 px-2">
+                {filteredPlaylists.map((playlist) => (
                     <div 
                         key={playlist._id}
                         onClick={() => navigate(`/playlists/${playlist._id}`)}
-                        className="p-2.5 my-2.5 border border-grey-300 cursor-pointer"
+                        className="border border-grey-300 cursor-pointer h-80 bg-white p-4 rounded-xl shadow hover:shadow-md hover:bg-gray-50 transition-all duration-200"
                     >
-                        <h3>{playlist.name}</h3>
+                        <h3 className="text-xl font-semibold text-center">{playlist.name}</h3>
                     </div>
-                ))
+                ))}
+                </div>
             )}
         </div>
-    )
+)
 }
 
 export default playlistDashboardPage;

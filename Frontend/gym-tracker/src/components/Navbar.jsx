@@ -18,10 +18,9 @@ const Navbar = () => {
         <div className="flex items-center justify-between">
             <h1 className="text-4xl font-bold text-primary font-serif tracking-tight">Gym-Track</h1>
             <div>
-                <Link to="/" className="text-lg font-medium text-gray-300 hover:text-white transition-colors duration-200">Home</Link>
-
                 {isLoggedIn ? (
                     <>
+                        <Link to="/" className="text-lg font-medium text-gray-300 hover:text-white transition-colors duration-200">Home</Link>
                         <Link to="/playlists" className="ml-6 text-lg font-medium text-gray-300 hover:text-white transition-colors duration-200">Playlists</Link>
                         <button onClick={handleLogout} className="ml-6 text-lg font-medium text-gray-300 hover:text-white transition-colors duration-200">
                             Logout

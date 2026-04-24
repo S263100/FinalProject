@@ -49,12 +49,13 @@ const CreatePlaylistPage = () => {
     return (
         <div className="min-h-screen flex justify-center items-start bg-gray-100">
             <div className="w-full max-w-2xl bg-white p-6 mt-10 rounded-xl shadow">
-            <h1>Create New Playlist</h1>
+            <h1 className="text-4xl font-bold mb-6 text-center">Create New Playlist</h1>
             <input
                 type="text"
-                placeholder="Playlist Name"
+                placeholder="Enter Playlist Name..."
                 value={playlistName}
                 onChange={(e) => setPlaylistName(e.target.value)}
+                className="border border-grey-300 rounded p-2 gap-4 mb-4 w-full"
             />
             {exercises.map((exercise, index) => (
                 <div key={index} className="border border-gray-300 p-4 mb-3 rounded-lg">

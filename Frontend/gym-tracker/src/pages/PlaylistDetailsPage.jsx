@@ -41,7 +41,7 @@ const PlaylistDetailsPage = () => {
 
     //Add new exercise to playlist
     const addExercise = () => {
-        setEditExercises([...editExercises, { name: "", sets: 3, reps: 10, rest: 60 }]);
+        setEditExercises([...editExercises, { name: "", sets: "3", reps: "10", rest: "60" }]);
     };
 
     //Update exercise details
@@ -128,16 +128,13 @@ const PlaylistDetailsPage = () => {
             {editMode ? (
                 <div>
                     <input 
-                        value={playlistName}
+                    value={playlistName}
                         onChange={(e) => setPlaylistName(e.target.value)}
-                        />
-                    <div className="flex gap-4 mt-4">
-                    <button onClick={updatePlaylist} className="bg-green-500 text-white p-2 rounded hover:bg-green-600 transition-colors duration-200">Save</button>
-                    <button onClick={() => setEditMode(false)} className="bg-gray-500 text-white p-2 rounded hover:bg-gray-600 transition-colors duration-200 ml-2">Cancel</button>
-                    </div>
+                        className="border border-grey-300 rounded p-2 gap-4 mb-4 w-full"
+                    />
                 </div>
             ) : (
-                <h1>{playlist.name}</h1>
+                <h1 className="text-3xl font-bold mb-6 text-center">{playlist.name}</h1>
             )}
 
             <h2>Exercises:</h2>
@@ -150,6 +147,7 @@ const PlaylistDetailsPage = () => {
                     
                     <p className="font-semibold mb-2">Exercise {index + 1}</p>
                     
+                    <p>Sets:</p>
                     <input
                         type="number"
                         placeholder="Sets"
@@ -159,6 +157,7 @@ const PlaylistDetailsPage = () => {
                         className="border p-2 mr-2 rounded w-20"
                         placeholder="Sets"
                     />
+                    <p>Reps:</p>
                     <input
                         type="number"
                         placeholder="Reps"
@@ -168,6 +167,7 @@ const PlaylistDetailsPage = () => {
                         className="border p-2 mr-2 rounded w-20"
                         placeholder="Reps"
                     />
+                    <p>Rest (secs):</p>
                     <input
                         type="number"
                         placeholder="Rest (seconds)"
