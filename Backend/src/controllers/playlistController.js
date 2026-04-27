@@ -1,6 +1,6 @@
 import Playlist from "../models/Playlist.js";
 
-//Create a New Playlist
+//Create a new playlist
 export const createPlaylist = async (req, res) => {
     try {
         const playlist = await Playlist.create({
@@ -14,7 +14,7 @@ export const createPlaylist = async (req, res) => {
     }
 };
 
-//Display all Playlist on the Main Playlist Screen
+//Display all playlists on the main playlist screen
 export const getPlaylists = async (req, res) => {
     try {
         const playlists = await Playlist.find({ userId: req.user.id.toString() });
@@ -24,7 +24,7 @@ export const getPlaylists = async (req, res) => {
     }
 };
 
-//Display Individual Playlist Details
+//Display Individual playlist details
 export const getPlaylistById = async (req, res) => {
     try {
         const playlist = await Playlist.findOne({ 
@@ -41,7 +41,7 @@ export const getPlaylistById = async (req, res) => {
     }
 };
 
-//Update Playlist Deatails
+//Update playlist details
 export const updatePlaylist = async (req, res) => {
     try {
         const playlist = await Playlist.findOneAndUpdate(
@@ -63,7 +63,7 @@ export const updatePlaylist = async (req, res) => {
     }
 };
 
-//Delete Playlist
+//Delete playlist
 export const deletePlaylist = async (req, res) => {
     try {
         const playlist = await Playlist.findOneAndDelete({

@@ -62,6 +62,7 @@ const CreatePlaylistPage = () => {
                     
                     <p className="font-semibold mb-2">Exercise {index + 1}</p>
                     
+                    <p>Sets:</p>
                     <input
                         type="number"
                         placeholder="Sets"
@@ -70,6 +71,7 @@ const CreatePlaylistPage = () => {
                         className="border p-2 mr-2 rounded w-20"
                         placeholder="Sets"
                     />
+                    <p>Reps:</p>
                     <input
                         type="number"
                         placeholder="Reps"
@@ -78,6 +80,7 @@ const CreatePlaylistPage = () => {
                         className="border p-2 mr-2 rounded w-20"
                         placeholder="Reps"
                     />
+                    <p>Rest (secs):</p>
                     <input
                         type="number"
                         placeholder="Rest (seconds)"
