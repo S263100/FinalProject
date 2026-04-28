@@ -10,7 +10,7 @@ const playlistDashboardPage = () => {
     const [searchPlaylist, setSearchPlaylist] = useState("");
     const navigate = useNavigate();
 
-    //Gather all playlists for user
+    //Gather all current playlists for user
     const fetchPlaylists = async () => {
         const token = localStorage.getItem("token");
 

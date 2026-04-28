@@ -24,7 +24,7 @@ export const getPlaylists = async (req, res) => {
     }
 };
 
-//Display Individual playlist details
+//Display individual playlist details
 export const getPlaylistById = async (req, res) => {
     try {
         const playlist = await Playlist.findOne({ 
