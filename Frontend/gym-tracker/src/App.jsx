@@ -6,6 +6,7 @@ import LoginPage from './pages/LoginPage'
 import PlaylistDashboardPage from './pages/PlaylistDashboardPage'
 import PlaylistDetailsPage from './pages/PlaylistDetailsPage'
 import CreatePlaylistPage from './pages/CreatePlaylistPage'
+import WorkoutTracking from './pages/WorkoutTracking'
 
 const App = () => {
   return ( 
@@ -19,6 +20,7 @@ const App = () => {
       <Route path='/playlists' element={<PlaylistDashboardPage />} />
       <Route path='/playlists/:id' element={<PlaylistDetailsPage />} />
       <Route path='/playlists/create' element={<CreatePlaylistPage />} />
+      <Route path='/workout-tracking' element={<WorkoutTracking />} />
     </Routes>
   </div>
   )

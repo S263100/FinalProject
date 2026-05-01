@@ -24,7 +24,6 @@ const playlistDashboardPage = () => {
         setPlaylists(data);
     };
 
-    //Load Data on page load
     useEffect(() => {
         fetchPlaylists();
     }, []);
@@ -58,8 +57,7 @@ const playlistDashboardPage = () => {
                     <div 
                         key={playlist._id}
                         onClick={() => navigate(`/playlists/${playlist._id}`)}
-                        className="border border-grey-300 cursor-pointer h-80 bg-white p-4 rounded-xl shadow hover:shadow-md hover:bg-gray-50 transition-all duration-200"
-                    >
+                        className="border border-grey-300 cursor-pointer h-80 bg-white p-4 rounded-xl shadow hover:shadow-md hover:bg-gray-50 transition-all duration-200">
                         <h3 className="text-xl font-semibold text-center">{playlist.name}</h3>
                     </div>
                 ))}

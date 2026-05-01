@@ -13,7 +13,6 @@ const PlaylistDetailsPage = () => {
     const [editExercises, setEditExercises] = useState([]);
     const navigate = useNavigate();
 
-    //Fetch playlist details
     const fetchPlaylistDetails = async () => {
         const token = localStorage.getItem("token");
 

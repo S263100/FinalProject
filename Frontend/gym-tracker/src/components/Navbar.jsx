@@ -22,6 +22,7 @@ const Navbar = () => {
                     <>
                         <Link to="/" className="text-lg font-medium text-gray-300 hover:text-white transition-colors duration-200">Home</Link>
                         <Link to="/playlists" className="ml-6 text-lg font-medium text-gray-300 hover:text-white transition-colors duration-200">Playlists</Link>
+                          <Link to="/workout-tracking" className="ml-6 text-lg font-medium text-gray-300 hover:text-white transition-colors duration-200">Workout Tracking</Link>
                         <button onClick={handleLogout} className="ml-6 text-lg font-medium text-gray-300 hover:text-white transition-colors duration-200">
                             Logout
                         </button>
