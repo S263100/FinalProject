@@ -22,7 +22,7 @@ export default function WorkoutTracking() {
         delegate: "CPU"
       },
       runningMode: "VIDEO",
-      numPoses: 4
+      numPoses: 2
     });
   };
 
