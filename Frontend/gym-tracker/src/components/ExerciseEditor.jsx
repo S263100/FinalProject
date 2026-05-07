@@ -1,4 +1,25 @@
+import { useEffect } from "react";
+import { useState } from "react";
+import { toast } from "sonner";
+
 const ExerciseEditor = ({ editExercises, setEditExercises, editMode }) => {
+
+    const [exercises, setExercises] = useState([]);
+
+    useEffect(() => {
+        const fetchExercises = async () => {
+            try {
+                const res = await fetch("http://localhost:5001/api/exercises")
+                
+                const data = await res.json();
+                setExercises(data);
+            } catch (error) {
+                toast.error("Failed to gather exercises", error);
+            }
+        };
+
+        fetchExercises();
+    }, []);
 
     const addExercise = () => {
         setEditExercises([...editExercises, { name: "", sets: "3", reps: "10", rest: "60" }]);
@@ -23,7 +44,19 @@ const ExerciseEditor = ({ editExercises, setEditExercises, editMode }) => {
                  editExercises.map((exercise, index) => (
                 <div key={index} className="border border-gray-300 p-4 mb-3 rounded-lg">
                     
-                    <p className="font-semibold mb-2">Exercise {index + 1}</p>
+                    <p className="font-semibold mb-2">Exercise</p>
+                    <select
+                        disabled={!editMode}
+                        value={exercise.exerciseId}
+                        onChange={(e) => updateExercise(index,"exerciseId",e.target.value)}
+                        className="border border-gray-300 p-2 rounded-md mb-3"
+                        >
+                            {exercises.map((ex) => (
+                                <option key={ex._id}>
+                                    {ex.name}
+                                </option>
+                            ))}
+                    </select>
                     
                     <p>Sets:</p>
                     <input
