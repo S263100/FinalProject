@@ -1,8 +1,9 @@
 import express from "express";
-import { getExercises } from "../controllers/ExerciseController.js";
+import { getExercises, createExercise } from "../controllers/ExerciseController.js";
 
 const router = express.Router();
 
 router.get("/", getExercises)
+router.post("/", createExercise)
 
 export default router;

@@ -11,3 +11,8 @@ export const getExercises = async (req, res) => {
         });
     }
 };
+
+export const createExercise = async (req, res) => {
+    const exercise = await Exercise.create(req.body);
+    res.json(exercise);
+}
