@@ -4,8 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 const DashboardPage = () => {
-    const navigate = useNavigate();
     const [playlists, setPlaylists] = useState([]);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const token = localStorage.getItem("token");

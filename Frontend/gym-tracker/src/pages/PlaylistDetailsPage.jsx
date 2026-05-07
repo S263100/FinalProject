@@ -6,12 +6,14 @@ import { toast } from "sonner";
 import ExerciseEditor from "../components/ExerciseEditor";
 
 const PlaylistDetailsPage = () => {
-    const { id } = useParams();
     const [playlist, setPlaylist] = useState(null);
     const [editMode, setEditMode] = useState(false);
     const [playlistName, setPlaylistName] = useState("");
     const [editExercises, setEditExercises] = useState([]);
+    
     const navigate = useNavigate();
+
+    const { id } = useParams();
 
     const fetchPlaylistDetails = async () => {
         const token = localStorage.getItem("token");
@@ -125,7 +127,7 @@ const PlaylistDetailsPage = () => {
                 editMode={editMode}
             />
             <div className="flex gap-4">
-            <button onClick={() => navigate(`/workout-tracking/`)}>Start Workout</button>
+            <button onClick={() => navigate(`/workout-tracking/${id}`)}>Start Workout</button>
             <button onClick={() => {setPlaylistName(playlist.name); setEditMode(true);}} className="bg-green-500 text-white p-2 rounded hover:bg-green-600 transition-colors duration-200">Edit Playlist</button>
             <button onClick={deletePlaylist} className="bg-red-500 text-white p-2 rounded hover:bg-red-600 transition-colors duration-200">Delete Playlist</button>
             </div>

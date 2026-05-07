@@ -6,6 +6,7 @@ import ExerciseEditor from "../components/ExerciseEditor";
 const CreatePlaylistPage = () => {
     const [playlistName, setPlaylistName] = useState("");
     const [exercises, setExercises] = useState([]);
+    
     const navigate = useNavigate();
 
     const createPlaylist = async () => {

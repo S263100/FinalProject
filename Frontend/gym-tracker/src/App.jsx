@@ -23,7 +23,7 @@ const App = () => {
       <Route path='/playlists' element={<PlaylistDashboardPage />} />
       <Route path='/playlists/:id' element={<PlaylistDetailsPage />} />
       <Route path='/playlists/create' element={<CreatePlaylistPage />} />
-      <Route path='/workout-tracking' element={<WorkoutTracking />} />
+      <Route path='/workout-tracking/:id' element={<WorkoutTracking />} />
       <Route path='/dashboard' element={<DashboardPage />} />
     </Routes>
   </div>
