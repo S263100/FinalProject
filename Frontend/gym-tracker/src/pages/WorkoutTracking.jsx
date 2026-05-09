@@ -1,11 +1,148 @@
+import { useParams } from "react-router-dom";
 import WorkoutTracking from "../components/PoseTracker";
+import { LogicMain } from "../logic/LogicMain"
+import { useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 
 export default function WorkoutTrackingPage () {
-return (
-    <div>
-      <h1>Workout Tracking</h1>
-      <WorkoutTracking />
-    </div>
-  );
-}
+  const [playlist, setPlaylist] = useState(null);
+  const [currentSet, setCurrentSet] = useState(1);
+  const [reps, setReps] = useState(0);
+  const [advice, setAdvice] = useState("");
+  const [restTime, setRestTime] = useState(0);
+  const [isResting, setIsResting] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
+  const { id } = useParams();
+
+  //Set starting state to 0 reps and starting position (before down and up stage)
+  const stateRef = useRef({ stage: null, reps: 0 });
+
+  //Fetching specifcic playlist
+  useEffect(() => {
+        const fetchPlaylist = async () => {
+          try {
+            const token = localStorage.getItem("token");
+
+            const res = await fetch(`http://localhost:5001/api/playlists/${id}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          if (!res.ok) {
+              toast.error("Failed to fetch playlist");
+          }
+
+          const data = await res.json();
+
+        setPlaylist(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+        fetchPlaylist();
+    }, [id]);
+
+    const handlePose = (landmarks) => {
+
+    const item = playlist.exercises[currentIndex];
+    if (!item) return;
+
+    const exercise = item.exerciseId;
+    if (!exercise) return;
+
+    const logic = LogicMain[exercise.name?.replace(/\s/g, "")];
+    if (!logic) return;
+
+    const result = logic(landmarks, stateRef.current);
+
+    stateRef.current = result;
+
+    setReps(result.reps);
+
+    setAdvice(result.advice);
+
+    //Start rest time when current reps meet playlist reps
+    if (result.reps >= item.reps) {
+        startRest(item.restSeconds);
+      }
+    };
+
+    const startRest = (seconds) => {
+      setIsResting(true);
+      setRestTime(seconds);
+    };
+
+    useEffect(() => {
+        if (!isResting) return;
+
+        //Decrese tme by 1 every second
+        const timer = setTimeout(() => {
+          setRestTime((t) => t - 1);
+        }, 1000);
+
+        //Once seconds reaches 0, end rest
+        if (restTime <= 0) {
+          endRest();
+          return
+        }
+
+        //Cancel the timer once finished
+        return () => clearTimeout(timer);
+      }, [isResting, restTime]);
+
+    const endRest = () => {
+      setIsResting(false);
+
+    const item = playlist.exercises[currentIndex];
+
+    //Add a set if current sets have not met playlist sets
+    if (currentSet < item.sets) {
+      setCurrentSet((s) => s + 1);
+    } else {
+      setCurrentIndex((i) => 1 + 1);
+      setCurrentSet(1);
+    }
+
+    //Reset to strarting state of 0 reps and starting position
+    stateRef.current = {stage: null, reps: 0};
+
+    setAdvice("");
+    };
+
+    if (!playlist) return <p>Loading Workout Playlist...</p>
+
+    const currentItem = playlist.exercises[currentIndex];
+
+    if (currentIndex >= playlist.exercises.length) {
+      return <h2>Workout Finished</h2>
+    }
+
+    const exercise = currentItem.exerciseId;
+    
+  return (
+      <div>
+        <h1>{playlist.name}</h1>
+        <h2>{exercise.name}</h2>
+
+      <h3> set {currentSet} / {currentItem.sets}</h3>
+
+      <h3>Target reps: {currentItem.reps}</h3>
+
+      <h2>Reps: {reps}</h2>
+      <p>{advice}</p>
+
+      {!isResting && (
+        <WorkoutTracking onResults={handlePose}/>
+      )}
+
+      {isResting && (
+        <div>
+          <h2>Rest: {restTime}</h2>
+        </div>
+      )}
+      </div>
+    );
+  }

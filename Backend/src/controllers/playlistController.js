@@ -29,7 +29,7 @@ export const getPlaylistById = async (req, res) => {
         const playlist = await Playlist.findOne({ 
             _id: req.params.id,
             userId: req.user.id.toString() 
-        });
+        }).populate("exercises.exerciseId");
 
         if (!playlist) {
             return res.status(404).json({ message: "Playlist not found" });

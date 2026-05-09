@@ -13,7 +13,6 @@ import DashboardPage from './pages/DashboardPage'
 const App = () => {
   return ( 
   <div>
-
     <Navbar />
     <Routes>
       <Route path='/' element={<LandingPage />} />

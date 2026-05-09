@@ -52,7 +52,7 @@ const ExerciseEditor = ({ editExercises, setEditExercises, editMode }) => {
                         className="border border-gray-300 p-2 rounded-md mb-3"
                         >
                             {exercises.map((ex) => (
-                                <option key={ex._id}>
+                                <option key={ex._id} value={ex._id}>
                                     {ex.name}
                                 </option>
                             ))}

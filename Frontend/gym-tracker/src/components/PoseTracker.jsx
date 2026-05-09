@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { PoseLandmarker, FilesetResolver, DrawingUtils } from "@mediapipe/tasks-vision";
 
-export default function WorkoutTracking() {
+export default function WorkoutTracking({ onResults }) {
 
   let runningMode = "IMAGE";
   const [webCamRunning, setWebCamRunning] = useState(false);
@@ -79,11 +79,13 @@ useEffect(() => {
 
   //Run pose detection on current video frame
     poseLandmarker.current.detectForVideo(video, startTimeMs, (result) => {
+      //Pass the full body lanmarks to onResults
+      onResults?.(result.landmarks[0]);
       //Saves frames drawing state
       ctx.save();
       //Clears canvas on last frame
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+      //Draws frame onto the canvas
       ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
 
       //Draws landmark spots and lines betweeen them
