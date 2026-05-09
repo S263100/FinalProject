@@ -42,13 +42,13 @@ const ExerciseEditor = ({ editExercises, setEditExercises, editMode }) => {
                     <p className="text-gray-600 mt-4">No exercises in this playlist.</p>
                 ) : (
                  editExercises.map((exercise, index) => (
-                <div key={index} className="border border-gray-300 p-4 mb-3 rounded-lg">
+                <div key={exercise.exerciseId || index} className="border border-gray-300 p-4 mb-3 rounded-lg">
                     
                     <p className="font-semibold mb-2">Exercise</p>
                     <select
                         disabled={!editMode}
                         value={exercise.exerciseId}
-                        onChange={(e) => updateExercise(index,"exerciseId",e.target.value)}
+                        onChange={(e) => updateExercise(index,"exerciseId", e.target.value)}
                         className="border border-gray-300 p-2 rounded-md mb-3"
                         >
                             {exercises.map((ex) => (
