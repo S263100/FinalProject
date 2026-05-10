@@ -9,6 +9,7 @@ import PlaylistDetailsPage from './pages/PlaylistDetailsPage'
 import CreatePlaylistPage from './pages/CreatePlaylistPage'
 import WorkoutTracking from './pages/WorkoutTracking'
 import DashboardPage from './pages/DashboardPage'
+import ProfilePage from './pages/ProfilePage'
 
 const App = () => {
   return ( 
@@ -24,6 +25,7 @@ const App = () => {
       <Route path='/playlists/create' element={<CreatePlaylistPage />} />
       <Route path='/workout-tracking/:id' element={<WorkoutTracking />} />
       <Route path='/dashboard' element={<DashboardPage />} />
+      <Route path='/profile/:id' element={<ProfilePage />} />
     </Routes>
   </div>
   )

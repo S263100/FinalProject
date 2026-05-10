@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom"
 const Navbar = () => {
   const navigate = useNavigate();
 
+  const user = JSON.parse(localStorage.getItem("user"));
   const token = localStorage.getItem("token");
   const isLoggedIn = !!token;
 
@@ -23,6 +24,7 @@ const Navbar = () => {
                         <Link to="/home" className="text-lg font-medium text-gray-300 hover:text-white transition-colors duration-200">Home</Link>
                         <Link to="/dashboard" className="ml-6 text-lg font-medium text-gray-300 hover:text-white transition-colors duration-200">My Dashboard</Link>
                         <Link to="/playlists" className="ml-6 text-lg font-medium text-gray-300 hover:text-white transition-colors duration-200">My Playlists</Link>
+                        <Link to={`/profile/${user._id}`} className="ml-6 text-lg font-medium text-gray-300 hover:text-white transition-colors duration-200">My Profile</Link>
                         <button onClick={handleLogout} className="ml-6 text-lg font-medium text-gray-300 hover:text-white transition-colors duration-200">
                             Logout
                         </button>
