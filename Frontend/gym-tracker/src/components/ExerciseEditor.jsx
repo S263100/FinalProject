@@ -22,7 +22,7 @@ const ExerciseEditor = ({ editExercises, setEditExercises, editMode }) => {
     }, []);
 
     const addExercise = () => {
-        setEditExercises([...editExercises, { name: "", sets: "3", reps: "10", rest: "60" }]);
+        setEditExercises([...editExercises, { exerciseId: "", sets: "3", reps: "10", rest: "60" }]);
     };
 
     const updateExercise = (index, field, value) => {
@@ -51,6 +51,11 @@ const ExerciseEditor = ({ editExercises, setEditExercises, editMode }) => {
                         onChange={(e) => updateExercise(index,"exerciseId", e.target.value)}
                         className="border border-gray-300 p-2 rounded-md mb-3"
                         >
+                            <option value="" disabled>
+                            --- Select Exercise ---
+                            </option>
+
+
                             {exercises.map((ex) => (
                                 <option key={ex._id} value={ex._id}>
                                     {ex.name}

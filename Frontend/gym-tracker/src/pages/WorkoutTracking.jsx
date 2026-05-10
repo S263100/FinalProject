@@ -78,7 +78,7 @@ export default function WorkoutTrackingPage () {
     useEffect(() => {
         if (!isResting) return;
 
-        //Decrese tme by 1 every second
+        //Decrese time by 1 every second
         const timer = setTimeout(() => {
           setRestTime((t) => t - 1);
         }, 1000);
