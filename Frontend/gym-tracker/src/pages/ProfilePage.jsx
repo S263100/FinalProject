@@ -37,7 +37,8 @@ const ProfilePage = () => {
 return (
     <div>
     <h1>Profile Page.</h1>
-    <h2>{user.email}</h2>
+    <h2>Username: {user.username}</h2>
+    <h2>Email Address: {user.email}</h2>
     </div>
     
 )

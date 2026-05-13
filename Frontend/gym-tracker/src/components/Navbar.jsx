@@ -9,31 +9,34 @@ const Navbar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    navigate("/login");
+    navigate("/");
     windows.location.reload();
   };
 
   return (
-    <header className="bg-gray-800 text-white p-4 border-b border-base-content/10">
-      <div className="mx-auto max-w-6xl p-4">
+    <header className="bg-black text-white p-4 border-base-content/10">
+      <div className="p-4">
         <div className="flex items-center justify-between">
+          <Link to="/">
             <h1 className="text-4xl font-bold text-primary font-serif tracking-tight">Gym-Track</h1>
-            <div>
+            </Link>
+            <div className="flex gap-6 text-lg font-medium text-white">
                 {isLoggedIn ? (
                     <>
-                        <Link to="/home" className="text-lg font-medium text-gray-300 hover:text-white transition-colors duration-200">Home</Link>
-                        <Link to="/dashboard" className="ml-6 text-lg font-medium text-gray-300 hover:text-white transition-colors duration-200">My Dashboard</Link>
-                        <Link to="/playlists" className="ml-6 text-lg font-medium text-gray-300 hover:text-white transition-colors duration-200">My Playlists</Link>
-                        <Link to={`/profile/${user._id}`} className="ml-6 text-lg font-medium text-gray-300 hover:text-white transition-colors duration-200">My Profile</Link>
-                        <button onClick={handleLogout} className="ml-6 text-lg font-medium text-gray-300 hover:text-white transition-colors duration-200">
+                        <Link to="/home" className="hover:text-white transition-colors duration-200">Home</Link>
+                        <Link to="/dashboard" className="hover:text-white transition-colors duration-200">My Dashboard</Link>
+                        <Link to="/playlists" className="hover:text-white transition-colors duration-200">My Playlists</Link>
+                        <Link to={`/profile/${user._id}`} className="hover:text-white transition-colors duration-200">My Profile</Link>
+                        <button onClick={handleLogout} className="hover:text-white transition-colors duration-200">
                             Logout
                         </button>
                     </>
                 ) : (
                     <>
-                        <Link to="/" className="text-lg font-medium text-gray-300 hover:text-white transition-colors duration-200">Home</Link>
-                        <Link to="/login" className="ml-6 text-lg font-medium text-gray-300 hover:text-white transition-colors duration-200">Login</Link>
-                        <Link to="/register" className="ml-6 text-lg font-medium text-gray-300 hover:text-white transition-colors duration-200">Register</Link>
+                        <div className="flex flex-row justify-center font-bold gap-6 skew-x-12">
+                        <Link to="/login" className="hover:text-yellow-200 transition-colors duration-200 border-2 border-white rounded-2xl px-6 py-2">Login</Link>
+                        <Link to="/register" className="hover:text-yellow-200 transition-colors duration-200 border-2 border-white rounded-2xl px-6 py-2">Register</Link>
+                        </div>
                     </>
                 )}
             </div>
