@@ -31,7 +31,7 @@ return (
     <img src={hero2Image} className="w-full max-w-md lg:max-w-xl rounded-3xl object-contain ml-auto"/>
     <div>
     <h1 className="text-yellow-200 font-serif text-5xl font-bold lg:text-7xl">How does it work?</h1>
-    <p className="text-white font-serif text-3xl mt-6 lg:text-3xl">Gym-Track utilises MediaPipe as a model to detect landmarks on the body, allowing them to be tracked and exercises reps and sets to be counted and recorded.</p>
+    <p className="text-white font-inter text-3xl mt-6 lg:text-3xl">Gym-Track utilises MediaPipe as a model to detect landmarks on the body, allowing them to be tracked and exercises reps and sets to be counted and recorded.</p>
     <div className="flex flex-row justify-center gap-20">
     </div>
     </div>

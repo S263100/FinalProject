@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from "sonner";
+import mainImage from  "../assets/login-page.jpg"
 
 const RegisterPage = () => {
   const [username, setUsername] = useState("");
@@ -47,18 +48,24 @@ const RegisterPage = () => {
 
   
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <form onSubmit={handleSubmit} className="bg-white p-8 rounded shadow-md w-full max-w-sm space-y-4">
-      <h1 className="text-3xl font-bold flex items-center justify-center">Register</h1>
+    <div className="min-h-screen flex flex-col lg:flex-row items-center lg:justify-start bg-black relative ml-auto gap-12 px-10 lg:px-28">
+      <form onSubmit={handleSubmit} className="bg-black p-8 rounded shadow-md w-full max-w-sm space-y-8 text-white lg:ml-72">
+      <h1 className="text-7xl font-bold font-inter flex items-center justify-center">Register</h1>
 
-      <input type="text" placeholder="Username" className="w-full p-2 mb-4 border border-gray-300 rounded" value={username} onChange={(e) => setUsername(e.target.value)} />
+      <p className="font-inter text-2xl">Username</p>
+      <input type="text" placeholder="Username" className="w-full p-2 mb-4 bg-[#2a2a2c] rounded-xl" value={username} onChange={(e) => setUsername(e.target.value)} />
 
-      <input type="email" placeholder="Email" className="w-full p-2 mb-4 border border-gray-300 rounded" value={email} onChange={(e) => setEmail(e.target.value)} />
+      <p className="font-inter text-2xl">Email Address</p>
+      <input type="email" placeholder="Email" className="w-full p-2 mb-4 bg-[#2a2a2c] rounded-xl" value={email} onChange={(e) => setEmail(e.target.value)} />
 
-      <input type="password" placeholder="Password" className="w-full p-2 mb-4 border border-gray-300 rounded" value={password} onChange={(e) => setPassword(e.target.value)} />
+      <p className="font-inter text-2xl">Password</p>
+      <input type="password" placeholder="Password" className="w-full p-2 mb-4 bg-[#2a2a2c] rounded-xl" value={password} onChange={(e) => setPassword(e.target.value)} />
 
-      <button type="submit" className="w-full bg-primary text-gray-800 p-2 rounded hover:bg-primary-dark transition-colors duration-200">Create Account</button>
+      <button type="submit" className="bg-white text-black w-full bg-primary p-2 rounded-xl hover:bg-primary-dark transition-colors duration-200">Create Account</button>
+
+      <button onClick={() => navigate("/login")} className="w-full bg-primary p-2 rounded hover:bg-primary-dark transition-colors duration-200">Already have an account? Login here</button>
       </form>
+      <img src={mainImage} className="w-full lg:max-w-6xl h-[50vh] rounded-3xl object-cover ml-auto"/>
     </div>
   ); 
 };

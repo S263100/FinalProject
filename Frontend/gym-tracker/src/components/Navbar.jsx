@@ -18,7 +18,7 @@ const Navbar = () => {
       <div className="p-4">
         <div className="flex items-center justify-between">
           <Link to="/">
-            <h1 className="text-4xl font-bold text-primary font-serif tracking-tight">Gym-Track</h1>
+            <h1 className="text-6xl font-bold text-primary font-bebas tracking-tight">Gym-Track</h1>
             </Link>
             <div className="flex gap-6 text-lg font-medium text-white">
                 {isLoggedIn ? (
