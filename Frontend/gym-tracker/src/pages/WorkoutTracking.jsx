@@ -5,6 +5,8 @@ import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
 export default function WorkoutTrackingPage () {
+     const startTime = useRef(Date.now());
+     const hasSaved = useRef(false);
   const [playlist, setPlaylist] = useState(null);
   const [currentSet, setCurrentSet] = useState(1);
   const [reps, setReps] = useState(0);
@@ -16,7 +18,7 @@ export default function WorkoutTrackingPage () {
   const { id } = useParams();
 
   //Set starting state to 0 reps and starting position (before down and up stage)
-  const stateRef = useRef({ stage: null, reps: 0 });
+  const stateRef = useRef({ stage: "up", reps: 0});
 
   //Fetching specifcic playlist
   useEffect(() => {
@@ -116,7 +118,40 @@ export default function WorkoutTrackingPage () {
 
     const currentItem = playlist.exercises[currentIndex];
 
+    //Save workout data for user dashboard
+    const saveWorkoutData = async () => {
+      const token = localStorage.getItem("token");
+
+    //Calulate workout time
+      const workoutDuration = Math.floor(
+        (Date.now() - startTime.current) /1000
+      );
+
+        if (hasSaved.current) return;
+
+        hasSaved.current = true;
+
+        await fetch("http://localhost:5001/api/workouts", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            playlistId: playlist._id,
+            workoutDuration,
+            exerciseResults: playlist.exercises.map((ex) => ({
+              exerciseId: ex.exerciseId._id,
+              exerciseName: ex.exerciseId.name,
+              totalReps: reps,
+            }))
+          })
+        })
+      };
+
+
     if (currentIndex >= playlist.exercises.length) {
+      saveWorkoutData();
       return <h2>Workout Finished</h2>
     }
 

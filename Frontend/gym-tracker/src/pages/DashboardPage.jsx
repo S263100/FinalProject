@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 const DashboardPage = () => {
-    const [playlists, setPlaylists] = useState([]);
+    const [stats, setStats] = useState(null);
 
     const navigate = useNavigate();
 
@@ -16,23 +16,24 @@ const DashboardPage = () => {
         }
     }, []);
 
-  const fetchPlaylists = async () => {
+  useEffect(() => {
+    const fetchStats = async () => {
         const token = localStorage.getItem("token");
 
-        const res = await fetch("http://localhost:5001/api/playlists", {
+        const res = await fetch(`http://localhost:5001/api/workouts/stats`, {
             headers: {
                 "Authorization": `Bearer ${token}`
             }
         });
 
         const data = await res.json();
-        setPlaylists(data);
+        setStats(data);
     };
 
-    useEffect(() => {
-        fetchPlaylists();
+      fetchStats();
     }, []);
 
+      
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-top-center justify-center p-10">
@@ -42,12 +43,11 @@ const DashboardPage = () => {
 
       <div className="grid grid-cols-3 gap-4 mt-6">
         <div className="bg-white p-4 rounded shadow">
-          <h2 className="text-xl font-bold mb-2">Total Playlists</h2>
-          {playlists.length}
+          <h2 className="text-xl font-bold mb-2">Total Reps: {stats?.repTotal}</h2>
         </div>
 
         <div className="bg-white p-4 rounded shadow">
-          <h2 className="text-xl font-bold mb-2">Total Time Spent Exercising</h2>
+          <h2 className="text-xl font-bold mb-2">Total Time Spent Exercising: {stats?.timeTotal} mins</h2>
         </div>
 
         <div className="bg-white p-4 rounded shadow">
