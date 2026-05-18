@@ -1,5 +1,7 @@
+import { bicepcurlAngleLogic } from "./BicepCurlCounting";
 import { squatAngleLogic } from "./SquatCounting";
 
 export const LogicMain = {
-    Squat: squatAngleLogic
+    Squat: squatAngleLogic,
+    BicepCurl: bicepcurlAngleLogic
 }

@@ -8,6 +8,10 @@ const DashboardPage = () => {
 
     const navigate = useNavigate();
 
+    const calculateMinutes = Math.floor((stats?.totalWorkoutTime || 0) / 60);
+
+    const averageWorkoutTime = Math.floor((stats?.averageWorkoutTime || 0) / 60);
+
     useEffect(() => {
         const token = localStorage.getItem("token");
 
@@ -33,7 +37,6 @@ const DashboardPage = () => {
       fetchStats();
     }, []);
 
-      
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-top-center justify-center p-10">
@@ -43,15 +46,23 @@ const DashboardPage = () => {
 
       <div className="grid grid-cols-3 gap-4 mt-6">
         <div className="bg-white p-4 rounded shadow">
-          <h2 className="text-xl font-bold mb-2">Total Reps: {stats?.repTotal}</h2>
+          <h2 className="text-xl font-bold mb-2 underline">Total Reps Per Exercise:</h2>
+          {stats?.exerciseRepTotals?.map(exercise => (
+            <div key={exercise.exerciseId}>
+              <p className="text-xl font-bold mb-2">{exercise.exerciseName}:</p>
+              <p className="text-xl font-bold mb-2">{exercise.totalReps} reps</p>
+            </div>
+          ))}
         </div>
 
         <div className="bg-white p-4 rounded shadow">
-          <h2 className="text-xl font-bold mb-2">Total Time Spent Exercising: {stats?.timeTotal} mins</h2>
+          <h2 className="text-xl font-bold mb-2 underline">Total Time Spent Exercising:</h2>
+          <p className="text-xl font-bold mb-2">{calculateMinutes} mins</p>
         </div>
 
         <div className="bg-white p-4 rounded shadow">
-          <h2 className="text-xl font-bold mb-2">Average Workout Duration</h2>
+          <h2 className="text-xl font-bold mb-2 underline">Average Workout Duration</h2>
+          <p className="text-xl font-bold mb-2">{averageWorkoutTime} mins</p>
         </div>
       </div>
       </div>

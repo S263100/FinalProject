@@ -5,8 +5,6 @@ import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
 export default function WorkoutTrackingPage () {
-     const startTime = useRef(Date.now());
-     const hasSaved = useRef(false);
   const [playlist, setPlaylist] = useState(null);
   const [currentSet, setCurrentSet] = useState(1);
   const [reps, setReps] = useState(0);
@@ -19,6 +17,9 @@ export default function WorkoutTrackingPage () {
 
   //Set starting state to 0 reps and starting position (before down and up stage)
   const stateRef = useRef({ stage: "up", reps: 0});
+
+  const startTime = useRef(Date.now());
+  const hasSaved = useRef(false);
 
   //Fetching specifcic playlist
   useEffect(() => {
@@ -143,7 +144,7 @@ export default function WorkoutTrackingPage () {
             exerciseResults: playlist.exercises.map((ex) => ({
               exerciseId: ex.exerciseId._id,
               exerciseName: ex.exerciseId.name,
-              totalReps: reps,
+              totalReps: ex.reps,
             }))
           })
         })
