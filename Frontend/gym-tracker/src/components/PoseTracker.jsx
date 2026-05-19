@@ -3,8 +3,9 @@ import { PoseLandmarker, FilesetResolver, DrawingUtils } from "@mediapipe/tasks-
 
 export default function WorkoutTracking({ onResults }) {
 
-  let runningMode = "IMAGE";
   const [webCamRunning, setWebCamRunning] = useState(false);
+  const [countdown, setCountdown] = useState(null);
+
   const poseLandmarker = useRef(null);
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
@@ -20,15 +21,26 @@ export default function WorkoutTracking({ onResults }) {
     poseLandmarker.current = await PoseLandmarker.createFromOptions(vision, {
       baseOptions: {
         modelAssetPath: `https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task`,
-        delegate: "CPU"
+        delegate: "GPU"
       },
       runningMode: "VIDEO",
       numPoses: 2
     });
+    enableCamera();
   };
 
   createPoseLandmarker();
   }, []);
+
+  const rest = (ms) => new Promise((r) => setTimeout(r, ms));
+
+  const startCountdown = async (seconds = 3) => {
+    for (let i = seconds; i > 0; i--) {
+      setCountdown(i);
+      await rest(1000);
+    }
+    setCountdown(null);
+  }
 
   //Check webcam acxcess is supported
   const hasGetUserMedia = () => !!navigator.mediaDevices?.getUserMedia;
@@ -39,6 +51,8 @@ export default function WorkoutTracking({ onResults }) {
           console.log("PoseLandmarker not loaded yet.");
           return;
         }
+
+      await startCountdown(3);
 
       const constraints = {video: true};
 
@@ -79,6 +93,11 @@ useEffect(() => {
   const drawingUtils = new DrawingUtils(ctx)
   ctx.imageSmoothingEnabled = true;
 
+  if (!video.videoWidth || !video.videoHeight) {
+    requestAnimationFrame(predictWebcam);
+    return;
+  }
+
   //Match canvaas overlay with video
   canvas.width = video.videoWidth
   canvas.height = video.videoHeight
@@ -110,7 +129,9 @@ useEffect(() => {
 
 return (
     <div>
-      <button onClick={enableCamera} className="bg-green-500 text-white p-2 rounded hover:bg-green-600 transition-colors duration-200">{webCamRunning ? "Running..." : "Start Exercise"}</button>
+      {countdown !== null && (
+        <div>{countdown}</div>
+      )}
       <div className="relative w-full max-w-5xl aspect-video mx-auto">
       <video ref={videoRef} autoPlay playsInline className="absolute inset-0 w-full h-full object-cover"/>
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full z-10"/>
