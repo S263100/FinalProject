@@ -5,7 +5,7 @@ const generateToken = (userId) => {
     return jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: "15d" });
 };
 
-const loginUser = async (req, res) => {
+export const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
 
@@ -33,7 +33,7 @@ const loginUser = async (req, res) => {
     }
 };
 
-const registerUser = async (req, res) => {
+export const registerUser = async (req, res) => {
     try {
        const { email, username, password } = req.body;
 
@@ -89,7 +89,7 @@ const registerUser = async (req, res) => {
 };
 
 //Gather user details for profile screen
-const getUserById = async (req, res) => {
+export const getUserById = async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
 
@@ -105,5 +105,41 @@ const getUserById = async (req, res) => {
     }
 };
 
-export { loginUser, registerUser, getUserById };
+export const updateUser = async (req, res) => {
+    try {
+        const user = req.user.id;
 
+        const updatedUser = await User.findByIdAndUpdate(
+            req.user.id,
+            {
+                $set: {
+                    username: req.body.username,
+                    email: req.body.email
+                },
+            },
+            { new: true }
+        );
+
+        res.json(updatedUser);
+    } catch (error) {
+        res.status(500).json({ message: "Internal Server error" });
+    }
+};
+
+export const deleteUser = async (req, res) => {
+    try {
+        const userId = req.user.id
+
+        const deleteUser = await User.findByIdAndDelete({
+            _id: req.params.id,
+            userId: req.user.id
+        });
+
+        if (!deleteUser) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        res.json({ message: "Account deleted successfully" });
+    } catch (error) {
+        res.status(500).json({ message: "Internal Server error"});
+    }
+};

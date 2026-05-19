@@ -128,8 +128,12 @@ const PlaylistDetailsPage = () => {
             />
             <div className="flex gap-4">
             <button onClick={() => navigate(`/workout-tracking/${id}`)}>Start Workout</button>
-            <button onClick={() => {setPlaylistName(playlist.name); setEditMode(true);}} className="bg-green-500 text-white p-2 rounded hover:bg-green-600 transition-colors duration-200">Edit Playlist</button>
-            <button onClick={deletePlaylist} className="bg-red-500 text-white p-2 rounded hover:bg-red-600 transition-colors duration-200">Delete Playlist</button>
+            <button onClick={() => {setPlaylistName(playlist.name); setEditMode(true);}} className="bg-green-500 text-white p-2 rounded hover:bg-green-600 transition-colors duration-200">
+                Edit Playlist
+            </button>
+            <button onClick={deletePlaylist} className="bg-red-500 text-white p-2 rounded hover:bg-red-600 transition-colors duration-200">
+                Delete Playlist
+            </button>
             </div>
             {editMode && (<button onClick={savePlaylist} className="bg-green-500 text-white p-2 rounded hover:bg-green-600 transition-colors duration-200 mt-4">Save Changes</button>)}
             </div>

@@ -2,14 +2,14 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, PieChart, Pie, Cell, Legend} from "recharts";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, PieChart, Pie, Legend} from "recharts";
 
 const DashboardPage = () => {
     const [stats, setStats] = useState(null);
 
     const navigate = useNavigate();
 
-    const repTotal = (stats?.exerciseRepTotals || [])
+    const repTotal = (stats?.exerciseRepTotals || []);
 
     const totalOverallReps = repTotal.reduce((sum, ex) => sum + ex.totalReps, 0);
 
@@ -52,7 +52,7 @@ const DashboardPage = () => {
     <div className="min-h-screen bg-gray-100 flex items-top-center justify-center p-10">
 
       <div className="w-full max-w-7xl bg-white p-8 rounded-2xl shadow-lg">
-      <h1 className="text-4xl font-bold mb-6 text-center">Dashboard</h1>
+      <h1 className="text-4xl font-bold mb-6 text-center underline">Dashboard</h1>
 
       <div className="grid grid-cols-2 gap-4 mt-6">
         <div className="bg-white p-4 rounded shadow">
