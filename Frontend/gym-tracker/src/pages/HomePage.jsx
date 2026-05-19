@@ -8,7 +8,7 @@ const HomePage = () => {
     const [playlists, setPlaylists] = useState([]);
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
 
         if (!token) {
             navigate("/login");
@@ -16,7 +16,7 @@ const HomePage = () => {
     }, []);
 
   const fetchPlaylists = async () => {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
 
         const res = await fetch("http://localhost:5001/api/playlists", {
             headers: {

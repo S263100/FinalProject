@@ -23,7 +23,7 @@ const DashboardPage = () => {
     }));
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
 
         if (!token) {
             navigate("/login");
@@ -32,7 +32,7 @@ const DashboardPage = () => {
 
   useEffect(() => {
     const fetchStats = async () => {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
 
         const res = await fetch(`http://localhost:5001/api/workouts/stats`, {
             headers: {

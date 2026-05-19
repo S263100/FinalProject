@@ -16,7 +16,7 @@ const PlaylistDetailsPage = () => {
     const { id } = useParams();
 
     const fetchPlaylistDetails = async () => {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
 
         const res = await fetch(`http://localhost:5001/api/playlists/${id}`, {
             headers: {
@@ -44,7 +44,7 @@ const PlaylistDetailsPage = () => {
 
 
     const updatePlaylist = async () => {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
 
         const res = await fetch(`http://localhost:5001/api/playlists/${id}`, {
             method: "PUT",
@@ -66,7 +66,7 @@ const PlaylistDetailsPage = () => {
 
 
     const deletePlaylist = async () => {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
 
         const res = await fetch(`http://localhost:5001/api/playlists/${id}`, {
             method: "DELETE",
@@ -84,7 +84,7 @@ const PlaylistDetailsPage = () => {
     };
 
     const savePlaylist = async () => {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
 
         const res = await fetch(`http://localhost:5001/api/playlists/${id}`, 
             {

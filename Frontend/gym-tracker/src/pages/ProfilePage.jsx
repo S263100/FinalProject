@@ -14,7 +14,7 @@ const ProfilePage = () => {
     const { id } = useParams();
 
     const fetchUserDetails = async () => {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
 
         const res = await fetch(`http://localhost:5001/api/auth/${id}`, {
             headers: {
@@ -38,7 +38,7 @@ const ProfilePage = () => {
 
 
     const updateUserDetails = async () => {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
 
         const res = await fetch(`http://localhost:5001/api/auth/${id}`, {
             method: "PUT",
@@ -61,7 +61,7 @@ const ProfilePage = () => {
 };
 
     const deleteUser = async () => {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
         
         const confirmDeletion = window.confirm("Are you sure you want to delete your account?");
         if (!confirmDeletion) return;
@@ -74,7 +74,7 @@ const ProfilePage = () => {
         });
 
         if (res.ok) {
-            localStorage.removeItem("token");
+            sessionStorage.removeItem("token");
             navigate("/");
             toast.success("Account deleted successfully");
         } else {

@@ -10,7 +10,7 @@ const CreatePlaylistPage = () => {
     const navigate = useNavigate();
 
     const createPlaylist = async () => {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
 
         const res = await fetch("http://localhost:5001/api/playlists", {
             method: "POST",

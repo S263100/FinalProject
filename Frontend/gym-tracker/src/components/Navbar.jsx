@@ -3,13 +3,13 @@ import { Link, useNavigate } from "react-router-dom"
 const Navbar = () => {
   const navigate = useNavigate();
 
-  const user = JSON.parse(localStorage.getItem("user"));
-  const token = localStorage.getItem("token");
+  const user = JSON.parse(sessionStorage.getItem("user"));
+  const token = sessionStorage.getItem("token");
   const isLoggedIn = !!token;
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user")
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("user")
     navigate("/");
     windows.location.reload();
   };

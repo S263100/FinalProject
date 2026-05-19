@@ -36,8 +36,8 @@ const LoginPage = () => {
 
         toast.success("Login Success", data);
 
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(data.user));
+        sessionStorage.setItem("token", data.token);
+        sessionStorage.setItem("user", JSON.stringify(data.user));
 
         navigate("/home");
 

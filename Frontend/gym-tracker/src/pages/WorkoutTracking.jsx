@@ -25,7 +25,7 @@ export default function WorkoutTrackingPage () {
   useEffect(() => {
         const fetchPlaylist = async () => {
           try {
-            const token = localStorage.getItem("token");
+            const token = sessionStorage.getItem("token");
 
             const res = await fetch(`http://localhost:5001/api/playlists/${id}`, {
             headers: {
@@ -121,7 +121,7 @@ export default function WorkoutTrackingPage () {
 
     //Save workout data for user dashboard
     const saveWorkoutData = async () => {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
 
     //Calulate workout time
       const workoutDuration = Math.floor(
