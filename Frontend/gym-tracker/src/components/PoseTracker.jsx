@@ -9,6 +9,7 @@ export default function WorkoutTracking({ onResults }) {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const canvasCtx = useRef(null);
+  const streamRef = useRef(null);
   const lastVideoTime = useRef(-1);
   
   useEffect(() => {
@@ -45,6 +46,7 @@ export default function WorkoutTracking({ onResults }) {
       const video = videoRef.current
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
         
+        streamRef.current = stream;
         video.srcObject = stream;
 
         video.onloadeddata = () => {
@@ -52,6 +54,16 @@ export default function WorkoutTracking({ onResults }) {
           predictWebcam();
         }
 }
+
+//Turns off camera when leaving workout tracking page
+  useEffect(() => {
+    return () => {
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach(track => track.stop());
+        streamRef.current = null;
+      }
+    }
+  }, [])
 
 useEffect(() => {
     if (canvasRef.current) {
@@ -65,6 +77,7 @@ useEffect(() => {
   const canvas = canvasRef.current
   const ctx = canvasCtx.current
   const drawingUtils = new DrawingUtils(ctx)
+  ctx.imageSmoothingEnabled = true;
 
   //Match canvaas overlay with video
   canvas.width = video.videoWidth
@@ -72,10 +85,6 @@ useEffect(() => {
 
   //Get current timestamp on frame
   const startTimeMs = performance.now();
-  
-  //Store video frame only if new
-  if (lastVideoTime.current !== video.currentTime) {
-    lastVideoTime.current = video.currentTime;
 
   //Run pose detection on current video frame
     poseLandmarker.current.detectForVideo(video, startTimeMs, (result) => {
@@ -96,16 +105,15 @@ useEffect(() => {
       }
       ctx.restore();
     });
-  }
     requestAnimationFrame(predictWebcam)
 }
 
 return (
     <div>
       <button onClick={enableCamera} className="bg-green-500 text-white p-2 rounded hover:bg-green-600 transition-colors duration-200">{webCamRunning ? "Running..." : "Start Exercise"}</button>
-      <div className="absolute w-[640px] h-[480px]">
-      <video ref={videoRef} autoPlay playsInline className="absolute top-0 left-0 w-full h-full object-cover"/>
-      <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full z-10"/>
+      <div className="relative w-full max-w-5xl aspect-video mx-auto">
+      <video ref={videoRef} autoPlay playsInline className="absolute inset-0 w-full h-full object-cover"/>
+      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full z-10"/>
       </div>
     </div>
   );

@@ -105,7 +105,7 @@ export default function WorkoutTrackingPage () {
     if (currentSet < item.sets) {
       setCurrentSet((s) => s + 1);
     } else {
-      setCurrentIndex((i) => 1 + 1);
+      setCurrentIndex((i) => i + 1);
       setCurrentSet(1);
     }
 

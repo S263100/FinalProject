@@ -22,12 +22,14 @@ const ExerciseEditor = ({ editExercises, setEditExercises, editMode }) => {
     }, []);
 
     const addExercise = () => {
-        setEditExercises([...editExercises, { exerciseId: "", sets: "3", reps: "10", rest: "60" }]);
+        setEditExercises([...editExercises, { id: crypto.randomUUID(), exerciseId: "", sets: "3", reps: "10", rest: "60" }]);
     };
 
     const updateExercise = (index, field, value) => {
-        const updatedExercises = [...editExercises];
-        updatedExercises[index][field] = value;
+        const updatedExercises = editExercises.map((ex, i) =>
+            i === index ? { ...ex, [field]: value } : ex
+        );
+
         setEditExercises(updatedExercises);
     };
 
@@ -42,12 +44,12 @@ const ExerciseEditor = ({ editExercises, setEditExercises, editMode }) => {
                     <p className="text-gray-600 mt-4">No exercises in this playlist.</p>
                 ) : (
                  editExercises.map((exercise, index) => (
-                <div key={exercise.exerciseId || index} className="border border-gray-300 p-4 mb-3 rounded-lg">
+                <div key={exercise.id} className="border border-gray-300 p-4 mb-3 rounded-lg">
                     
                     <p className="font-semibold mb-2">Exercise</p>
                     <select
                         disabled={!editMode}
-                        value={exercise.exerciseId}
+                        value={exercise.exerciseId._id || exercise.exerciseId}
                         onChange={(e) => updateExercise(index,"exerciseId", e.target.value)}
                         className="border border-gray-300 p-2 rounded-md mb-3"
                         >
